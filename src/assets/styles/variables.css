@@ -91,7 +91,7 @@ body {
 	--text-width: calc(1000px + (var(--space) * 2));
 	--mid-width: 1180px;
 
-  --screen-padding-top: 3.3rem;
+  --screen-padding-top: 6rem;
   --screen-padding-right: 1rem;
   --screen-padding-bottom: 1rem;
   --screen-padding-left: 3rem;
@@ -100,6 +100,12 @@ body {
 
 	/* this should be adopted globally */
 	--layout-sidepadding: var(--space);
+}
+
+@media screen and (max-width: 580px) {
+	body {
+	  --screen-padding-top: 4rem;
+	}
 }
 
 

@@ -1,0 +1,420 @@
+---
+import {
+  Swiper,
+  SwiperWrapper,
+  SwiperPagination,
+  SwiperButtonPrev,
+  SwiperButtonNext
+} from "astro-swiper";
+
+import type { SwiperOptions } from "swiper/types";
+
+import RbButton from "../../components/RbButton.astro";
+
+const slides = [
+  {
+    bg: "/images/home/banner-bg-1.webp",
+    title: $tr("We Are Building an Open Ecosystem of the Future"),
+    text:
+      $tr("Building and growing this kind of open-source ecosystem is our deep passion and mission. We'd be genuinely thrilled to see you join our community of users!"),
+    authorTitle: $tr("Project Architect"),
+    authorName: $tr("Sergey Lonshakov"),
+    authorAvatar: "sergey.webp",
+  },
+  {
+    bg: "/images/home/banner-bg-2.webp",
+    title: $tr("Comfort powered by open technologies"),
+    text:
+      $tr("Since 2017, I have been actively involved in the project, applying and developing open-source smart home solutions based on Robonomics, making people’s lives in Cyprus more comfortable."),
+    authorTitle: $tr("Robonomics engineer"),
+    authorName: $tr("Vadim Manaenko"),
+    authorAvatar: "vadim.webp",
+  },
+  {
+    bg: "/images/home/banner-bg-3.webp",
+    title: $tr("Cyberpunk is a choice in favor of privacy"),
+    text:
+     $tr("Privacy today has become something like art. But it is a norm that everyone should have. Value your digital freedom and personal space."),
+    authorTitle: $tr("Robo Art & Science"),
+    authorName: $tr("Anna Wimmer-S"),
+    authorAvatar: "anna.webp",
+  },
+];
+
+const uid = `ecosystem-${Math.random().toString(36).slice(2, 9)}`;
+
+const options: SwiperOptions = {
+  speed: 420,
+  slidesPerView: 1,
+  loop: true,
+  autoHeight: true,
+
+  // autoplay: {
+  //   delay: 6500,
+  //   disableOnInteraction: false,
+  //   pauseOnMouseEnter: true,
+  // },
+
+  pagination: {
+    el: `.${uid}-pagination`,
+    clickable: true,
+  },
+
+  navigation: {
+    prevEl: `.${uid}-prev`,
+    nextEl: `.${uid}-next`,
+  },
+
+  keyboard: {
+    enabled: true,
+    onlyInViewport: true,
+  },
+
+  a11y: {
+    prevSlideMessage: "Previous slide",
+    nextSlideMessage: "Next slide",
+  },
+};
+---
+<section class="home-ecosystem" aria-label="Project and team">
+    <div class="home-ecosystem__slider">
+      <Swiper options={options}>
+        <SwiperWrapper>
+          {slides.map((s) => (
+            <div class="home-ecosystem__slide swiper-slide">
+              <img
+                class="home-ecosystem__bg"
+                src={s.bg}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+              />
+              <div class="home-ecosystem__slide-inside layout">
+                <div class="home-ecosystem__content">
+                  <h2>{s.title}</h2>
+                  <p>{s.text}</p>
+
+                  <div class="home-ecosystem__author">
+                    <img
+                      class="home-ecosystem__avatar"
+                      src={`/images/avatar/${s.authorAvatar}`}
+                      alt=""
+                      loading="lazy"
+                    />
+                    <div>
+                      <div class="home-ecosystem__author-title">
+                        {s.authorTitle}
+                      </div>
+                      <div class="home-ecosystem__author-name">
+                        {s.authorName}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </SwiperWrapper>
+
+        <SwiperPagination
+          class={`home-ecosystem__dots ${uid}-pagination`}
+        />
+
+        <RbButton style="display:none" noTarget extraCls="button swiper-button" href="/intro/" aria-label="learn more about our project and our team">{$tr('MORE ABOUT PROJECT TEAM')}</RbButton>
+      </Swiper>
+
+      <SwiperButtonPrev
+        class={`home-ecosystem__arrow home-ecosystem__arrow--left ${uid}-prev`}
+      >
+      </SwiperButtonPrev>
+
+      <SwiperButtonNext
+        class={`home-ecosystem__arrow home-ecosystem__arrow--right ${uid}-next`}
+      >
+      </SwiperButtonNext>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  const initNavigation = () => {
+    const swiperEl = document.querySelector('.home-ecosystem .swiper');
+    const swiper = swiperEl?.swiper;
+
+    if (swiper && swiper.navigation) {
+      swiper.navigation.destroy();
+      swiper.navigation.init();
+      swiper.navigation.update();
+    }
+  };
+
+  if (document.readyState === 'complete') {
+    initNavigation();
+  } else {
+    window.addEventListener('load', initNavigation);
+  }
+</script>
+
+<style is:global>
+  /* Pagination container */
+.home-ecosystem__dots {
+  position: absolute;
+  width: unset !important;
+  left: 50% !important;
+  bottom: 9.5rem !important;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  z-index: 6;
+}
+
+/* Bullet base */
+.home-ecosystem__dots .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px; 
+  background-color: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(12, 11, 11, 0.4);
+  opacity: 1;
+  margin: 0 !important;
+  transition:
+    background-color 200ms ease,
+    transform 200ms ease,
+    opacity 200ms ease;
+  cursor: pointer;
+}
+
+/* Active bullet */
+.home-ecosystem__dots .swiper-pagination-bullet-active {
+  background-color: var(--color-light);
+  transform: scale(1.15);
+  opacity: 1;
+}
+
+.home-ecosystem__dots .swiper-pagination-bullet:hover {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+@media screen and (max-width: 420px) {
+  .home-ecosystem__dots {
+    bottom: 7.5rem !important;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .home-ecosystem__dots {
+    bottom: 6.5rem !important;
+  }
+}
+</style>
+
+<style>
+
+  .home-ecosystem__slider {
+    position: relative;
+    width: 100vw;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+  }
+
+  /* In RTL, keep swiper aligned to the viewport instead of shifting it off-screen */
+  html[dir="rtl"] .home-ecosystem__slider {
+    width: 100%;
+    margin-left: 0;
+    transform: none;
+  }
+
+  .home-ecosystem__slide {
+    position: relative;
+    padding: var(--space) 0;
+    padding-bottom: calc(var(--space) * 5);
+    min-height: 650px;
+    display: flex;
+    align-items: stretch;
+    color: var(--color-dark)
+  }
+
+  /* Force swiper internal flow to remain LTR even on RTL pages */
+  html[dir="rtl"] .home-ecosystem__slider :global(.swiper) {
+    direction: ltr;
+  }
+
+  .home-ecosystem__slide[data-swiper-slide-index=0] {
+    color: var(--color-light)
+  }
+
+  .home-ecosystem__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 130%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .home-ecosystem__slide-inside {
+    width: calc(100% - 300px);
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    z-index: 20;
+  }
+
+  .home-ecosystem__content {
+    align-self: flex-end;
+  }
+
+  .home-ecosystem__content h2 {
+    margin: 0;
+    margin-bottom: calc(var(--space) * 0.5);
+    text-align: left;
+    text-transform: unset;
+    max-width: 634px;
+  }
+
+  .home-ecosystem__slide[data-swiper-slide-index=2] .home-ecosystem__content h2 {
+    text-shadow: 0 -2px 0 var(--rb-color-green-accent), 4px 0px 0 var(--rb-color-green-accent);
+  }
+
+  .home-ecosystem__content p {
+    max-width: 634px;
+  }
+
+  html[dir="rtl"] .home-ecosystem__content h2,
+  html[dir="rtl"] .home-ecosystem__content p {
+    text-align: right;
+  }
+
+
+  .home-ecosystem__author {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .home-ecosystem__avatar {
+    width: 54px;
+    height: 54px;
+    border-radius: 100%;
+    object-fit: cover;
+  }
+
+  .home-ecosystem__author-title {
+    font-size: 0.85rem;
+    opacity: 0.85;
+  }
+
+  .home-ecosystem__author-name {
+    font-variation-settings: var(--font-flex-bold);
+  }
+
+  .home-ecosystem__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 2.4rem;
+    cursor: pointer;
+    z-index: 5;
+  }
+
+  .home-ecosystem__arrow--left { left: 0.6rem; }
+  .home-ecosystem__arrow--right { right: 0.6rem; }
+
+  html[dir="rtl"] .home-ecosystem__arrow--left {
+    left: auto;
+    right: 0.6rem;
+    transform: rotate(180deg);
+  }
+
+  html[dir="rtl"] .home-ecosystem__arrow--right {
+    right: auto;
+    left: 0.6rem;
+    transform: rotate(180deg);
+  }
+
+  .swiper-button {
+    position: absolute;
+    left: 50%;
+    bottom: 3.5rem;
+    padding-left: 4rem; 
+    padding-right: 4rem; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(-50%) !important;
+    z-index: 20;
+  }
+
+  /* Mirror CTA button for Arabic / RTL */
+  html[dir="rtl"] .swiper-button {
+    flex-direction: row-reverse;
+  }
+
+  @media screen and (max-width: 1200px) {
+    .home-ecosystem__slide-inside {
+      width: calc(100% - 20px);
+    }
+  }
+
+
+  @media screen and (max-width: 900px) {
+    .home-ecosystem__slide {
+      min-height: 520px;
+    }
+
+
+    .home-ecosystem__slide[data-swiper-slide-index=1] .home-ecosystem__bg {
+      height: 150%;
+    }
+
+    .home-ecosystem__slide[data-swiper-slide-index=2] .home-ecosystem__bg {
+      height: 177%;
+      transform: scale(-1, 1);
+    }
+
+     .home-ecosystem__slide[data-swiper-slide-index=2] .home-ecosystem__content {
+      align-self: start;
+      justify-content: start;
+    }
+
+    .home-ecosystem__arrow {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 720px) {
+    .home-ecosystem__slide {
+      min-height: 580px;
+    }
+
+    .home-ecosystem__slide[data-swiper-slide-index=0] .home-ecosystem__bg {
+      height: 180%;
+    }
+  }
+
+  @media screen and (max-width: 590px) {
+    .home-ecosystem__slide {
+      min-height: 500px;
+      padding-bottom: calc(var(--space) * 3);
+      padding-top: calc(var(--space) * 2.5);
+    }
+    
+
+    .home-ecosystem__slide-inside {
+      width: 100%;
+      justify-content: start;
+    }
+
+    .home-ecosystem__slide[data-swiper-slide-index=2] .home-ecosystem__bg {
+      height: 158%;
+      transform: scale(-1, -1);
+    }
+  }
+</style>

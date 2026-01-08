@@ -1,0 +1,87 @@
+---
+import { getLocale } from "astro-i18n-aut";
+const locale = getLocale(Astro.url);
+
+const generatePath = (path) => {
+  return locale === 'en' ? path : `/${locale}${path}`;
+};
+
+import personalUrl from '../../assets/images/home/for-personal-usage.webp?url';
+import smartHomeUrl from '../../assets/images/home/for-smart-home.webp?url';
+import coworkingUrl from '../../assets/images/home/for-coworking.webp?url';
+import businessUrl from '../../assets/images/home/for-business.webp?url';
+
+const links = [
+  { href: generatePath('/devices/'), label: 'FOR <br/> PERSONAL USAGE', img: personalUrl, tags: ['cyberpunks.shop', 'personal_device'] },
+  { href: generatePath('/devices/'), label: 'FOR <br/> SMART HOMES', img: smartHomeUrl, tags: ['FULL_service_integration', 'DIY_setup'] },
+  { href: generatePath('/cases/'), label: 'FOR  CO-WORKING & <br/> CO-LIVING', img: coworkingUrl, tags: ['cypherpunk_space', 'shared_access'] },
+  { href: generatePath('/cases/'), label: 'FOR <br/> BUSINESS', img: businessUrl, tags: ['smart_RWA', 'digital_passports', 'custom_hardware #robotics '] },
+];
+---
+
+<section class="footer-quicklinks" aria-label="Quick links">
+  <div class="footer-quicklinks__grid grid grid-4">
+    {links.map((item) => (
+      <a class="oldy oldy__link footer-quicklinks__item" href={item.href}>
+        <img class="footer-quicklinks__img" src={item.img} alt="" aria-hidden="true" loading="lazy" />
+        <h4 class="footer-quicklinks__label" set:html={item.label}></h4>
+        <div class="footer-quicklinks__tags">
+          {item.tags.map((tag) => (
+            <span>#{tag} </span>
+          ))}
+        </div>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .footer-quicklinks {
+    background: var(--body-bg);
+    padding: calc(var(--space) * 2) var(--layout-sidepadding);
+  }
+
+  .footer-quicklinks__item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--space) * 0.8);
+    text-decoration: none;
+    color: var(--color-dark);
+    min-height: 120px;
+    pointer-events: none; /* while website is still in a rework mode */
+  }
+  
+
+  .footer-quicklinks__label {
+    display: block;
+    text-align: left;
+    margin: 0;
+    color: var(--color-dark);
+    text-transform: uppercase;
+    font-variation-settings: var(--font-flex-extrabold);
+    line-height: 1.1;
+  }
+
+  .footer-quicklinks__tags {
+    width: 90%;
+    font-variation-settings: var(--font-flex-medium);
+    color: var(--color-blue);
+  }
+
+  /* Better alignment for Arabic / RTL */
+  html[dir="rtl"] .footer-quicklinks__label {
+    text-align: right;
+  }
+
+  html[dir="rtl"] .footer-quicklinks__tags {
+    text-align: right;
+  }
+
+</style>
+
+
+
+
+
+

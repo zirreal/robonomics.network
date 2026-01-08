@@ -1,16 +1,17 @@
 ---
 // components import
 import HeaderNav from './HeaderNav.astro';
-import LanguageSwitcher from './LanguageSwitcher.astro';
+import HeaderList from './HeaderList.astro'
 
 const {translated = false} = Astro.props;
+
 ---
 
 <header class="header">
-  <div class="header-content">
+  <div class="header-inner">
     <div class="header-logo">
-      <a href="/">
-        <svg width="162" height="31" viewBox="0 0 162 31" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-robot hide-mobile">
+      <a href="/" aria-label="Robonomics home">
+        <svg width="34" height="34" viewBox="0 0 39 31" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-robot">
           <g clip-path="url(#clip0_951_181)">
             <g class="hideMobile">
               <path d="M51.7172 21.7096H49.2262V26.6679H46.9912V13.7778H51.5131C52.9963 13.7778 54.1417 14.1116 54.9483 14.7793C55.7549 15.4469 56.1582 16.4127 56.1582 17.6767C56.1582 18.5392 55.9503 19.2609 55.5355 19.8427C55.1206 20.4245 54.5422 20.8722 53.8001 21.1848L56.6876 26.5521V26.6669H54.2948L51.7152 21.7087L51.7172 21.7096ZM49.2262 19.9035H51.5227C52.2764 19.9035 52.8654 19.7134 53.289 19.3323C53.7125 18.9512 53.9252 18.4311 53.9252 17.7693C53.9252 17.1074 53.7288 16.5449 53.338 16.1667C52.9463 15.7894 52.3621 15.5945 51.5843 15.582H49.2262V19.9025V19.9035Z" fill="black"/>
@@ -35,16 +36,28 @@ const {translated = false} = Astro.props;
         </svg>
       </a>
     </div>
-    <div class="header-side">
-      <LanguageSwitcher translated={translated}/>
-      <HeaderNav/>
-    </div>
 
+    <div class="header-row">
+      <HeaderList classList="header-laptop-nav"/>
+
+      <div class="header-actions" aria-label="Header actions">
+        <HeaderNav/>
+      </div>
+    </div>
   </div>
 </header>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // Keep a CSS var with current header height for the mobile menu positioning
+    const setHeaderHeightVar = () => {
+      const header = document.querySelector('.header');
+      if (!header) return;
+      document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
+    };
+    setHeaderHeightVar();
+    window.addEventListener('resize', setHeaderHeightVar);
+
     // logos and assets redirect on logo right click
     const headerLogo = document.querySelector('.header-logo');
     if (headerLogo) {
@@ -57,23 +70,21 @@ const {translated = false} = Astro.props;
 </script>
 
 <style>
-
-  .hideDesktop {
-    display: block;
-  }
-
-  .hideMobile {
-    display: none;
+  .header-inner {
+    padding: 0.6rem var(--screen-padding-left) 0.55rem;
   }
 
   .header-logo {
-    padding-left: calc(var(--screen-padding-left) * 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.2rem;
   }
 
   .header-logo a {
-    width: 100%;
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
     text-decoration: none;
   }
 
@@ -85,72 +96,76 @@ const {translated = false} = Astro.props;
   }
 
   .header {
-    --logo-padding: 0.6rem;
-
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index:1005;
-    border-bottom: 2px solid var(--color-dark);
-    background-color: var(--header-bg);
+    background-color: var(--color-light);
   }
   
-  .header-content {
-    display: flex;
-    justify-content: space-between;
+  .header-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-
-    height: var(--screen-padding-top);
-    padding: 1.6rem;
-    padding-left: var(--logo-padding);
-    padding-right: var(--screen-padding-right);
-  }
-
-  html[dir="rtl"] .header-content {
-    padding-right: var(--logo-padding);
-    padding-left: var(--screen-padding-right);
-  }
-
-  .header-side {
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    gap: calc(var(--space) / 3);
-  } 
-
-
-  html[dir="rtl"] .header-logo a {
-    display: block;
+    justify-items: center;
     position: relative;
-    right: -100px;
+    padding-top: 0.35rem;
   }
 
-  html[dir="rtl"] .header-content {
-    padding-right: var(--logo-padding);
-    padding-left: var(--screen-padding-right);
+  .header-actions {
+    grid-column: 3;
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--space) * 0.5);
   }
 
+  html[dir="rtl"] .header-actions {
+    grid-column: 1;
+    justify-self: start;
+  }
 
-  @media screen and (max-width: 425px) {
+  .header-actions :global(.select-wrapper) {
+    display: inline-flex;
+    align-items: center;
+  }
 
-    .header-side {
-      align-items: center;
+  .header-actions :global(#locale-select) {
+    height: 37px;
+    line-height: 37px;
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: transparent;
+  }
+
+  /* Desktop-only: hide burger/menu toggle */
+  .header-actions :global(#sidetext) {
+    display: none;
+  }
+
+  @media screen and (max-width: 900px) {
+    .header-nav {
+      font-size: 0.7rem;
+    }
+    
+  }
+
+  @media screen and (max-width: 580px) {
+    .header-row :global(.header-laptop-nav){
+      display: none;
     }
 
-    .header-logo {
-      margin-right: calc(var(--space) * 1.2);
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      padding-left: var(--space);
+      padding-right: var(--space);
     }
 
-    .header-logo a {
-      display: inline-block;
-      width: 60px;
+    .header-actions :global(#sidetext) {
+      display: block;
     }
-
-
-      html[dir="rtl"] .header-logo  {
-        margin-right: 0;
-      }
   }
 
   /* eye animation */
