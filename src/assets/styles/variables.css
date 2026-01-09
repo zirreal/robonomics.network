@@ -96,6 +96,9 @@ body {
   --screen-padding-bottom: 1rem;
   --screen-padding-left: 3rem;
 
+	--header-padding-top: 0.6rem;
+	--header-padding-bottom: 0.55rem;
+
 	--space-bannertop: 4.5rem;
 
 	/* this should be adopted globally */

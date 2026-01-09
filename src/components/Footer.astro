@@ -30,44 +30,49 @@ const generatePath = (path) => {
 
 <style>
   footer {
-      margin-top: 0;
+    margin-top: 0;
   }
 
   footer a {
-      color: var(--text-color);
+    color: var(--text-color);
   }
 
 
   html[dir="rtl"] footer nav ul li{
-      padding-right: var(--space);
-      padding-left: 0;
+    padding-right: var(--space);
+    padding-left: 0;
   }
 
 
   /* + Privacy & language */
   .footer-privacy {
-      padding: calc(var(--space) * 0.5) var(--layout-sidepadding);
-      display: flex;
-      justify-content: flex-end;
+    padding: calc(var(--space) * 0.5) var(--layout-sidepadding);
   }
 
   .footer-privacy-inner {
-      display: flex;
-      align-items: end;
-      justify-content: center;
-      gap: calc(var(--space) * 0.5)
+    display: flex;
+    width: 100%;
+    align-items: end;
+    justify-content: space-between;
+    gap: calc(var(--space) * 0.5);
   }
 
   .footer-privacy a {
-      color: var(--color-dark);
-      text-transform: uppercase;
-      font-size: 80%;
-      text-decoration: underline;
-      white-space: nowrap;
+    font-size: calc(var(--base-font-size) * 0.75);
+    font-variation-settings: var(--font-flex-bold);
+    color: var(--color-dark);
+    text-transform: uppercase;
+    text-decoration: underline;
+    white-space: nowrap;
+    transition: color 0.3s ease-in-out;
+  }
+
+  .footer-privacy a:hover {
+    color: var(--color-blue)
   }
 
   html[dir="rtl"] .footer-privacy-inner {
-      flex-direction: row-reverse;
+    flex-direction: row-reverse;
   }
   /* - Privacy & language */
 

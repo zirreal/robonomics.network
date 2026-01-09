@@ -33,9 +33,7 @@ const links = contacts
 ---
 
 <section class="footer-social" aria-label="Community">
-  <div class="footer-social__inner">
-    <div class="footer-social__label">{$tr('JOIN OUR COMMUNITY OF USERS')}</div>
-
+  <div class="layout">
     <ul class="footer-social__list" aria-label="Social links">
       {links.map((item) => (
         <li>
@@ -58,15 +56,9 @@ const links = contacts
 
 <style>
   .footer-social {
-    background: var(--color-dark);
+    padding: var(--space) 0;
+    background-color: var(--color-dark);
     color: var(--color-light);
-    padding: calc(var(--space) * 1.25) var(--layout-sidepadding);
-  }
-
-  .footer-social__inner {
-    display: flex;
-    align-items: center;
-    gap: calc(var(--space) * 2.5)
   }
 
   .footer-social__label {
@@ -79,6 +71,7 @@ const links = contacts
   .footer-social__list {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: calc(var(--space) * 1.2);
     list-style: none;
     padding: 0;
@@ -87,14 +80,17 @@ const links = contacts
 
   .footer-social__list li {
     margin-bottom: 0;
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
   }
 
   .footer-social__link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 100%;
+    height: 100%;
     text-decoration: none;
   }
 

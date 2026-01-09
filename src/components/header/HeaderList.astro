@@ -32,7 +32,7 @@ const isActive = (target) => {
 <nav class={'header-nav ' + classList} aria-label="Primary">
   <a href={generatePath('/devices/')} class:list={["header-link", isActive('/devices') && "is-active"]}>{$tr('SHOP DEVICES')}</a>
   <a href={generatePath('/ecosystem/')} class:list={["header-link", isActive('/ecosystem') && "is-active"]}>{$tr('ECOSYSTEM')}</a>
-  <a href={generatePath('/')} class:list={["header-link", "header-link--home", isActive('/') && "is-active"]}>{$tr('HOME')}</a>
+  <a href={generatePath('/')} class:list={["header-link", "header-link--home", isActive('/') && "is-active"]} aria-label={$tr('HOME')}>{$tr('HOME')}</a>
   <a href={generatePath('/community/')} class:list={["header-link", isActive('/community') && "is-active"]}>{$tr('COMMUNITY')}</a>
   <a href={generatePath('/contact/')} class:list={["header-link", "header-link--ask", isActive('/contact') && "is-active"]}>{$tr('ASK A TECHNICIAN')}</a>
 </nav>
@@ -40,21 +40,29 @@ const isActive = (target) => {
 <style>
 
   .header-nav {
-    grid-column: 2;
+    width: 100%;
+    padding-left: 1.85rem;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: calc(var(--space) * 1.2);
     text-transform: uppercase;
-    font-size: 0.9rem;
+    font-size: calc(var(--base-font-size) * 0.7);
     font-variation-settings: var(--font-flex-extrabold);
+    position: relative;
+    transform: scale(1);
+    transform-origin: center;
+    transition: transform 0.25s ease-out;
+    will-change: transform;
+    contain: layout style;
+  }
+  
+  :global(.header.is-scrolled) :global(.header-nav) {
+    transform: scale(0.9);
   }
 
-  .header-link {
+  .header-link--home {
     position: relative;
-    text-decoration: none;
-    color: #0044cc;
-    padding: 0.2rem 0;
-    transition: opacity 0.33s ease-in-out;
   }
 
   .header-link:hover {
