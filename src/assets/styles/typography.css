@@ -61,6 +61,22 @@ h5 {
   font-variation-settings: var(--font-flex-bold);
 }
 
+/* page-title styles */
+
+.page-title {
+  font-size: calc(var(--base-font-size) * 2.5);
+  font-variation-settings: var(--font-flex-extrabold);
+  text-transform: uppercase;
+  color: var(--color-dark);
+  letter-spacing: 3px;
+}
+
+@media screen and (max-width: 680px) {
+  .page-title {
+    font-size: calc(var(--base-font-size) * 1.6);
+  }
+}
+
 /* + Title with line throw */
 
 .title-lined {

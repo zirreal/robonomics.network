@@ -12,7 +12,7 @@ import coworkingUrl from '../../assets/images/home/for-coworking.webp?url';
 import businessUrl from '../../assets/images/home/for-business.webp?url';
 
 const links = [
-  { href: generatePath('/devices/'), label: 'FOR <br/> PERSONAL USAGE', img: personalUrl, tags: ['cyberpunks.shop', 'personal_device'] },
+  { href: generatePath('/for-personal-usage/'), label: 'FOR <br/> PERSONAL USAGE', img: personalUrl, tags: ['cyberpunks.shop', 'personal_device'] },
   { href: generatePath('/devices/'), label: 'FOR <br/> SMART HOMES', img: smartHomeUrl, tags: ['FULL_service_integration', 'DIY_setup'] },
   { href: generatePath('/cases/'), label: 'FOR  CO-WORKING & <br/> CO-LIVING', img: coworkingUrl, tags: ['cypherpunk_space', 'shared_access'] },
   { href: generatePath('/cases/'), label: 'FOR <br/> BUSINESS', img: businessUrl, tags: ['smart_RWA', 'digital_passports', 'custom_hardware #robotics '] },
@@ -49,7 +49,6 @@ const links = [
     text-decoration: none;
     color: var(--color-dark);
     min-height: 120px;
-    pointer-events: none; /* while website is still in a rework mode */
   }
   
 
