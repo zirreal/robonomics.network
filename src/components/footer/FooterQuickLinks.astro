@@ -1,4 +1,6 @@
 ---
+import HeroCardBadges from '../blocks/HeroCardBadges.astro';
+
 import { getLocale } from "astro-i18n-aut";
 const locale = getLocale(Astro.url);
 
@@ -34,7 +36,7 @@ const links = [
     href: generatePath('/for-personal-usage/'), 
     label: 'FOR <br/> PERSONAL USAGE', 
     img: personalUrl, 
-    tags: ['cyberpunks.shop', 'personal_device'],
+    tags: ['Cyberpunks shop', 'Self-care devices', 'Personal metrics'],
     bgClass: 'bg-blue',
     pathMatch: '/for-personal-usage'
   },
@@ -42,7 +44,7 @@ const links = [
     href: generatePath('/for-smart-homes/'), 
     label: 'FOR <br/> SMART HOMES', 
     img: smartHomeUrl, 
-    tags: ['FULL_service_integration', 'DIY_setup'],
+    tags: ['B2C & B2B solutions', 'Full service integration', 'DIY setup'],
     bgClass: 'bg-gray',
     pathMatch: '/for-smart-homes'
   },
@@ -50,7 +52,7 @@ const links = [
     href: generatePath('/for-coworking-and-coliving/'), 
     label: 'FOR  CO-WORKING & <br/> CO-LIVING', 
     img: coworkingUrl, 
-    tags: ['cypherpunk_space', 'shared_access'],
+    tags: ['B2C & B2B solutions', 'Smart access', 'Shared housekeeping'],
     bgClass: 'bg-green',
     pathMatch: '/for-coworking-and-coliving'
   },
@@ -58,7 +60,7 @@ const links = [
     href: generatePath('/for-business/'), 
     label: 'FOR <br/> BUSINESS', 
     img: businessUrl, 
-    tags: ['smart_RWA', 'digital_passports', 'custom_hardware #robotics '],
+    tags: ['Smart RWA', 'Digital passports', 'Custom hardware', 'Robotics integration'],
     bgClass: 'bg-dark-blue',
     pathMatch: '/for-business'
   },
@@ -93,15 +95,31 @@ for (const link of links) {
           <img class="footer-quicklinks__img" src={item.img} alt="" aria-hidden="true" loading="lazy" />
           <h4 class="footer-quicklinks__label" set:html={item.label}></h4>
           <div class="footer-quicklinks__tags">
-            {item.tags.map((tag) => (
-              <span>#{tag} </span>
-            ))}
+            <HeroCardBadges
+              items={[
+                $tr('Cyberpunks shop'),
+                $tr('Self-care devices'),
+                $tr('Personal metrics'),
+              ]}
+              staticPos
+              variant="dark"
+            />
           </div>
         </a>
       );
     })}
   </div>
 </section>
+
+<style is:global>
+  .footer-quicklinks .oldy__link:hover *  {
+    color: var(--color-light);
+  }
+
+  .footer-quicklinks .oldy__link:hover h4  {
+    color: var(--color-dark);
+  }
+</style>
 
 <style>
   .footer-quicklinks {
@@ -134,7 +152,7 @@ for (const link of links) {
     text-decoration: none;
     color: var(--color-dark);
     min-height: 120px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease-in-out;
   }
 
   .footer-quicklinks__item.active {
@@ -170,7 +188,6 @@ for (const link of links) {
   .footer-quicklinks__item.bg-dark-blue .footer-quicklinks__tags {
     color: var(--rb-color-pale-blue);
   }
-  
 
   .footer-quicklinks__label {
     display: block;

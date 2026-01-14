@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import TrustBadges from '../components/blocks/TrustBadges.astro';
 import HomeEcosystemSwiper from '../components/home/HomeEcosystemSwiper.astro';
+import HeroCardBadges from '../components/blocks/HeroCardBadges.astro';
 
 ---
 
@@ -10,34 +11,82 @@ import HomeEcosystemSwiper from '../components/home/HomeEcosystemSwiper.astro';
   description={$tr("Robonomics is a decentralized cloud for storing digital twins of robotics and IoT devices. Robonomics enables economic and technical communication between machines and humans. Its decentralized architecture secures the end user's privacy.")}
 >
   <section class="layout section home">
-    <div class="home-hero">
+    <div class="layout">
+      <h1 class="title-lined">
+        <span>{$tr('open-source smart devices ecosystem')}</span>
+      </h1>
       <div class="home-hero__videos" aria-label="Use cases">
-        <div class="home-hero__heading-wrap">
-          <h1 class="home-hero__heading">{$tr('OPEN-SOURCE ROBOTICS & IOT ECOSYSTEM')}</h1>
-        </div>
-
         <a class="home-hero__card" href="/for-personal-usage/" aria-label="For personal usage">
           <img class="home-hero__preview" src="/video/preview/home-preview-1.webp" alt="" loading="eager"/>
           <video class="home-hero__video" src="/video/home-1.mp4" autoplay muted loop playsinline preload="metadata"></video>
-          <span class="home-hero__title">{$tr('FOR PERSONAL USAGE')}</span>
+          <div class="home-hero__title">
+            <span>{$tr('FOR')}</span>
+            <span>{$tr('PERSONAL USAGE')}</span>
+          </div>
+          <HeroCardBadges
+            items={[
+              $tr('Cyberpunks shop'),
+              $tr('Self-care devices'),
+              $tr('Personal metrics'),
+            ]}
+            variant="light"
+            showArrow
+          />
         </a>
 
         <a class="home-hero__card" href="/for-smart-homes/" aria-label="For smart homes">
           <img class="home-hero__preview" src="/video/preview/home-preview-2.webp" alt="" loading="eager"/>
           <video class="home-hero__video" src="/video/home-2.mp4" autoplay muted loop playsinline preload="metadata"></video>
-          <span class="home-hero__title">{$tr('FOR SMART HOMES')}</span>
+          <div class="home-hero__title">
+            <span>{$tr('FOR')}</span>
+            <span>{$tr('SMART HOMES')}</span>
+          </div>
+          <HeroCardBadges
+            items={[
+              $tr('B2C & B2B solutions'),
+              $tr('Full service integration'),
+              $tr('DIY setup'),
+            ]}
+            variant="light"
+            showArrow
+          />
         </a>
 
         <a class="home-hero__card" href="/for-coworking-and-coliving/" aria-label="For co-working and co-living">
           <img class="home-hero__preview" src="/video/preview/home-preview-3.webp" alt="" loading="eager"/>
           <video class="home-hero__video" src="/video/home-3.mp4" autoplay muted loop playsinline preload="metadata"></video>
-          <span class="home-hero__title">{$tr('FOR CO-WORKING & CO-LIVING')}</span>
+          <div class="home-hero__title">
+            <span>{$tr('FOR')}</span>
+            <span>{$tr('CO-WORKING & CO-LIVING')}</span>
+          </div>
+          <HeroCardBadges
+            items={[
+              $tr('B2C & B2B solutions'),
+              $tr('Smart access'),
+              $tr('Shared housekeeping'),
+            ]}
+            variant="light"
+            showArrow
+          />
         </a>
 
         <a class="home-hero__card" href="/for-business/" aria-label="For business">
           <img class="home-hero__preview" src="/video/preview/home-preview-4.webp" alt="" loading="eager"/>
           <video class="home-hero__video" src="/video/home-4.mp4" autoplay muted loop playsinline preload="metadata"></video>
-          <span class="home-hero__title">{$tr('FOR BUSINESS')}</span>
+          <div class="home-hero__title">
+            <span>{$tr('FOR')}</span>
+            <span>{$tr('BUSINESS')}</span>
+          </div>
+          <HeroCardBadges
+            items={[
+              $tr('Smart RWA'),
+              $tr('Digital passports'),
+              $tr('Custom hardware'),
+              $tr('Robotics integration'),
+            ]}
+            variant="light"
+            showArrow
+          />
         </a>
       </div>
     </div>
@@ -86,14 +135,14 @@ import HomeEcosystemSwiper from '../components/home/HomeEcosystemSwiper.astro';
 </script>
 
 <style>
+
+  h1 {
+    margin-top: calc(var(--space) * 0.8);
+  }
+
   .home {
     margin-bottom: var(--space);
     margin-top: 0;
-  }
-
-  .home-hero {
-    display: flex;
-    flex-direction: column;
   }
 
   .home-hero__videos {
@@ -108,8 +157,8 @@ import HomeEcosystemSwiper from '../components/home/HomeEcosystemSwiper.astro';
   .home-hero__card {
     position: relative;
     display: block;
+    height: calc(100vh - var(--screen-padding-top) - 86px - var(--space));
     text-decoration: none;
-    min-height: 816px;
     background-color: transparent;
     overflow: hidden;
   }
@@ -160,14 +209,15 @@ import HomeEcosystemSwiper from '../components/home/HomeEcosystemSwiper.astro';
   .home-hero__title {
     position: absolute;
     left: 0;
-    bottom: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
     padding: 1.2rem 1rem;
     color: #fff;
     text-transform: uppercase;
-    font-variation-settings: var(--font-flex-bold);
+    font-variation-settings: var(--font-flex-extrabold);
     letter-spacing: 0.06em;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.75);
-    font-size: 0.85rem;
+    font-size: calc(var(--base-font-size) * 0.9);
     white-space: pre-line;
     z-index: 3;
   }

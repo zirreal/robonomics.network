@@ -14,6 +14,7 @@ import RbButton from "../../components/RbButton.astro";
 const slides = [
   {
     bg: "/images/home/banner-bg-1.webp",
+    bgColor: "var(--color-blue-extra-dark)",
     title: $tr("We Are Building an Open Ecosystem of the Future"),
     text:
       $tr("Building and growing this kind of open-source ecosystem is our deep passion and mission. We'd be genuinely thrilled to see you join our community of users!"),
@@ -23,15 +24,17 @@ const slides = [
   },
   {
     bg: "/images/home/banner-bg-2.webp",
+    bgColor: "var(--color-gray)",
     title: $tr("Comfort powered by open technologies"),
     text:
-      $tr("Since 2017, I have been actively involved in the project, applying and developing open-source smart home solutions based on Robonomics, making people’s lives in Cyprus more comfortable."),
+      $tr("Since 2017, I have been actively involved in the project, applying and developing open-source smart home solutions based on Robonomics, making people's lives in Cyprus more comfortable."),
     authorTitle: $tr("Robonomics engineer"),
     authorName: $tr("Vadim Manaenko"),
     authorAvatar: "vadim.webp",
   },
   {
     bg: "/images/home/banner-bg-3.webp",
+    bgColor: "var(--rb-color-green-accent)",
     title: $tr("Cyberpunk is a choice in favor of privacy"),
     text:
      $tr("Privacy today has become something like art. But it is a norm that everyone should have. Value your digital freedom and personal space."),
@@ -81,7 +84,7 @@ const options: SwiperOptions = {
       <Swiper options={options}>
         <SwiperWrapper>
           {slides.map((s) => (
-            <div class="home-ecosystem__slide swiper-slide">
+            <div class="home-ecosystem__slide swiper-slide" style={`background-color: ${s.bgColor};`}>
               <img
                 class="home-ecosystem__bg"
                 src={s.bg}
@@ -126,11 +129,17 @@ const options: SwiperOptions = {
       <SwiperButtonPrev
         class={`home-ecosystem__arrow home-ecosystem__arrow--left ${uid}-prev`}
       >
+        <svg width="120" height="30" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0.585786 13.3137C-0.195262 14.0947 -0.195262 15.3611 0.585786 16.1421L13.3137 28.87C14.0948 29.6511 15.3611 29.6511 16.1421 28.87C16.9232 28.089 16.9232 26.8227 16.1421 26.0416L4.82843 14.7279L16.1421 3.4142C16.9232 2.63315 16.9232 1.36682 16.1421 0.58577C15.3611 -0.195279 14.0948 -0.195279 13.3137 0.58577L0.585786 13.3137ZM2 14.7279V16.7279H120V14.7279V12.7279H2V14.7279Z" fill="white"/>
+        </svg>
       </SwiperButtonPrev>
 
       <SwiperButtonNext
         class={`home-ecosystem__arrow home-ecosystem__arrow--right ${uid}-next`}
       >
+        <svg width="120" height="30" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform: scaleX(-1);">
+          <path d="M0.585786 13.3137C-0.195262 14.0947 -0.195262 15.3611 0.585786 16.1421L13.3137 28.87C14.0948 29.6511 15.3611 29.6511 16.1421 28.87C16.9232 28.089 16.9232 26.8227 16.1421 26.0416L4.82843 14.7279L16.1421 3.4142C16.9232 2.63315 16.9232 1.36682 16.1421 0.58577C15.3611 -0.195279 14.0948 -0.195279 13.3137 0.58577L0.585786 13.3137ZM2 14.7279V16.7279H120V14.7279V12.7279H2V14.7279Z" fill="white"/>
+        </svg>
       </SwiperButtonNext>
 
     </div>
@@ -162,7 +171,7 @@ const options: SwiperOptions = {
   position: absolute;
   width: unset !important;
   left: 50% !important;
-  bottom: 9.5rem !important;
+  bottom: 10% !important;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
@@ -172,11 +181,11 @@ const options: SwiperOptions = {
 
 /* Bullet base */
 .home-ecosystem__dots .swiper-pagination-bullet {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px; 
-  background-color: rgba(255, 255, 255, 0.4);
-  border: 1px solid rgba(12, 11, 11, 0.4);
+  width: 8px;
+  height: 20px;
+  border-radius: 0; 
+  background-color: var(--color-light);
+  border: none;
   opacity: 1;
   margin: 0 !important;
   transition:
@@ -188,13 +197,14 @@ const options: SwiperOptions = {
 
 /* Active bullet */
 .home-ecosystem__dots .swiper-pagination-bullet-active {
-  background-color: var(--color-light);
+  background-color: #FF1493;
   transform: scale(1.15);
   opacity: 1;
 }
 
 .home-ecosystem__dots .swiper-pagination-bullet:hover {
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: #FF1493;
+  opacity: 0.8;
 }
 
 @media screen and (max-width: 420px) {
@@ -252,7 +262,7 @@ const options: SwiperOptions = {
     width: 100%;
     height: 130%;
     object-fit: cover;
-    z-index: 0;
+    z-index: 1;
   }
 
   .home-ecosystem__slide-inside {
@@ -314,7 +324,8 @@ const options: SwiperOptions = {
 
   .home-ecosystem__arrow {
     position: absolute;
-    top: 50%;
+    top: unset;
+    bottom: 5%;
     transform: translateY(-50%);
     background: transparent;
     border: none;
@@ -322,6 +333,15 @@ const options: SwiperOptions = {
     font-size: 2.4rem;
     cursor: pointer;
     z-index: 5;
+    padding: 0;
+    width: 260px;
+    height: 35px;
+  }
+
+  .home-ecosystem__arrow svg {
+    width: 130px;;
+    height: 100%;
+    display: block;
   }
 
   .home-ecosystem__arrow--left { left: 0.6rem; }
@@ -330,13 +350,13 @@ const options: SwiperOptions = {
   html[dir="rtl"] .home-ecosystem__arrow--left {
     left: auto;
     right: 0.6rem;
-    transform: rotate(180deg);
+    transform: translateY(-50%) rotate(180deg);
   }
 
   html[dir="rtl"] .home-ecosystem__arrow--right {
     right: auto;
     left: 0.6rem;
-    transform: rotate(180deg);
+    transform: translateY(-50%) rotate(180deg);
   }
 
   .swiper-button {
