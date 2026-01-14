@@ -252,13 +252,20 @@ a:not(.button).dashed, .link:not(.button).dashed {
 }
 
 .highlight-green {
+  display: inline-block;
+  padding: 0.3rem;
+  font-size: calc(var(--base-font-size) * 1.3);
+  line-height: 1;
   border-bottom: 0;
+  color: var(--color-blue);
   background-color: var(--rb-color-green-accent);
 }
-/* 
-a.highlight {
-  border-bottom: 0.5px solid currentColor;
-} */
+
+@media screen and (max-width: 520px) {
+  .highlight-green {
+    font-size: var(--base-font-size);
+  }
+}
 
 
 hr {

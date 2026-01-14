@@ -33,6 +33,7 @@ body {
 	--color-blue-lighter:hsl(199, 100%, 84%); /* architecture page */
 	--color-blue-light:hsl(199, 100%, 72%);
 	--color-blue-mid: hsl(198, 98%, 47%);
+	--color-blue-extra-dark: hsl(235, 40%, 27%);
 	
 	--color-blue-dark: hsl(228.7,67.5%,40%);
 	--color-blue-contacts: hsl(228, 41%, 27%);

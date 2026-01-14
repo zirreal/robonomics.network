@@ -3,7 +3,7 @@ const {videos = [], alt = 'Robonomics product', cls = ''} = Astro.props;
 ---
 
 <section class=`video-gallery ${cls}`>
-  <div class="layout">
+  <div class="layout layout__content">
     <div class="gallery-grid">
       {videos.map((video, index) => (
         <div class="gallery-item">
@@ -35,9 +35,12 @@ const {videos = [], alt = 'Robonomics product', cls = ''} = Astro.props;
   }
 
   .gallery-grid {
-    display: grid;
+    /* display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space);
+    gap: var(--space); */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: calc(var(--space) * 0.5);
   }
 
   .gallery-item {

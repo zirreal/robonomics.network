@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import HomeTrustBadges from '../components/home/HomeTrustBadges.astro';
+import TrustBadges from '../components/blocks/TrustBadges.astro';
 import HomeEcosystemSwiper from '../components/home/HomeEcosystemSwiper.astro';
 
 ---
@@ -22,19 +22,19 @@ import HomeEcosystemSwiper from '../components/home/HomeEcosystemSwiper.astro';
           <span class="home-hero__title">{$tr('FOR PERSONAL USAGE')}</span>
         </a>
 
-        <a class="home-hero__card" href="/devices/" aria-label="For smart homes">
+        <a class="home-hero__card" href="/for-smart-homes/" aria-label="For smart homes">
           <img class="home-hero__preview" src="/video/home-preview-2.webp" alt="" loading="eager"/>
           <video class="home-hero__video" src="/video/home-2.mp4" autoplay muted loop playsinline preload="metadata"></video>
           <span class="home-hero__title">{$tr('FOR SMART HOMES')}</span>
         </a>
 
-        <a class="home-hero__card" href="/cases/" aria-label="For co-working and co-living">
+        <a class="home-hero__card" href="/for-coworking-and-coliving/" aria-label="For co-working and co-living">
           <img class="home-hero__preview" src="/video/home-preview-3.webp" alt="" loading="eager"/>
           <video class="home-hero__video" src="/video/home-3.mp4" autoplay muted loop playsinline preload="metadata"></video>
           <span class="home-hero__title">{$tr('FOR CO-WORKING & CO-LIVING')}</span>
         </a>
 
-        <a class="home-hero__card" href="/cases/" aria-label="For business">
+        <a class="home-hero__card" href="/for-business/" aria-label="For business">
           <img class="home-hero__preview" src="/video/home-preview-4.webp" alt="" loading="eager"/>
           <video class="home-hero__video" src="/video/home-4.mp4" autoplay muted loop playsinline preload="metadata"></video>
           <span class="home-hero__title">{$tr('FOR BUSINESS')}</span>
@@ -43,7 +43,7 @@ import HomeEcosystemSwiper from '../components/home/HomeEcosystemSwiper.astro';
     </div>
   </section>
 
-  <div class="trust-badges-wrapper"><HomeTrustBadges/></div>
+  <div class="trust-badges-wrapper"><TrustBadges/></div>
 
   <HomeEcosystemSwiper />
 </Layout>

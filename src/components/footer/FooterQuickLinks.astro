@@ -11,27 +11,95 @@ import smartHomeUrl from '../../assets/images/home/for-smart-home.webp?url';
 import coworkingUrl from '../../assets/images/home/for-coworking.webp?url';
 import businessUrl from '../../assets/images/home/for-business.webp?url';
 
+// Normalize path to handle locale prefixes
+const normalizePath = (path) => {
+  if (!path) return '/';
+  // Remove trailing slashes (except root)
+  let normalized = path.length > 1 ? path.replace(/\/+$/, '') : path;
+  // Remove locale prefix
+  if (locale !== 'en' && normalized.startsWith(`/${locale}`)) {
+    normalized = normalized.slice(locale.length + 1) || '/';
+  } else if (normalized.startsWith('/en/')) {
+    normalized = normalized.slice(3) || '/';
+  } else if (normalized === '/en') {
+    normalized = '/';
+  }
+  return normalized || '/';
+};
+
+const currentPath = normalizePath(Astro.url.pathname);
+
 const links = [
-  { href: generatePath('/for-personal-usage/'), label: 'FOR <br/> PERSONAL USAGE', img: personalUrl, tags: ['cyberpunks.shop', 'personal_device'] },
-  { href: generatePath('/devices/'), label: 'FOR <br/> SMART HOMES', img: smartHomeUrl, tags: ['FULL_service_integration', 'DIY_setup'] },
-  { href: generatePath('/cases/'), label: 'FOR  CO-WORKING & <br/> CO-LIVING', img: coworkingUrl, tags: ['cypherpunk_space', 'shared_access'] },
-  { href: generatePath('/cases/'), label: 'FOR <br/> BUSINESS', img: businessUrl, tags: ['smart_RWA', 'digital_passports', 'custom_hardware #robotics '] },
+  { 
+    href: generatePath('/for-personal-usage/'), 
+    label: 'FOR <br/> PERSONAL USAGE', 
+    img: personalUrl, 
+    tags: ['cyberpunks.shop', 'personal_device'],
+    bgClass: 'bg-blue',
+    pathMatch: '/for-personal-usage'
+  },
+  { 
+    href: generatePath('/for-smart-homes/'), 
+    label: 'FOR <br/> SMART HOMES', 
+    img: smartHomeUrl, 
+    tags: ['FULL_service_integration', 'DIY_setup'],
+    bgClass: 'bg-gray',
+    pathMatch: '/for-smart-homes'
+  },
+  { 
+    href: generatePath('/for-coworking-and-coliving/'), 
+    label: 'FOR  CO-WORKING & <br/> CO-LIVING', 
+    img: coworkingUrl, 
+    tags: ['cypherpunk_space', 'shared_access'],
+    bgClass: 'bg-green',
+    pathMatch: '/for-coworking-and-coliving'
+  },
+  { 
+    href: generatePath('/for-business/'), 
+    label: 'FOR <br/> BUSINESS', 
+    img: businessUrl, 
+    tags: ['smart_RWA', 'digital_passports', 'custom_hardware #robotics '],
+    bgClass: 'bg-dark-blue',
+    pathMatch: '/for-business'
+  },
 ];
+
+// Check if current path matches a link
+const isActive = (pathMatch) => {
+  const normalizedMatch = normalizePath(pathMatch);
+  if (normalizedMatch === '/') return currentPath === '/';
+  return currentPath === normalizedMatch || currentPath.startsWith(`${normalizedMatch}/`);
+};
+
+// Determine which background class to apply to the section
+let sectionBgClass = '';
+for (const link of links) {
+  if (isActive(link.pathMatch)) {
+    sectionBgClass = link.bgClass;
+    break;
+  }
+}
 ---
 
-<section class="footer-quicklinks" aria-label="Quick links">
+<section class:list={["footer-quicklinks", sectionBgClass]} aria-label="Quick links">
   <div class="footer-quicklinks__grid grid grid-4">
-    {links.map((item) => (
-      <a class="oldy oldy__link footer-quicklinks__item" href={item.href}>
-        <img class="footer-quicklinks__img" src={item.img} alt="" aria-hidden="true" loading="lazy" />
-        <h4 class="footer-quicklinks__label" set:html={item.label}></h4>
-        <div class="footer-quicklinks__tags">
-          {item.tags.map((tag) => (
-            <span>#{tag} </span>
-          ))}
-        </div>
-      </a>
-    ))}
+    {links.map((item) => {
+      const active = isActive(item.pathMatch);
+      return (
+        <a 
+          class:list={["oldy", "oldy__link", "footer-quicklinks__item", active && item.bgClass, active && 'active']} 
+          href={item.href}
+        >
+          <img class="footer-quicklinks__img" src={item.img} alt="" aria-hidden="true" loading="lazy" />
+          <h4 class="footer-quicklinks__label" set:html={item.label}></h4>
+          <div class="footer-quicklinks__tags">
+            {item.tags.map((tag) => (
+              <span>#{tag} </span>
+            ))}
+          </div>
+        </a>
+      );
+    })}
   </div>
 </section>
 
@@ -39,6 +107,23 @@ const links = [
   .footer-quicklinks {
     background: var(--body-bg);
     padding: calc(var(--space) * 2) var(--layout-sidepadding);
+    transition: background-color 0.3s ease;
+  }
+
+  .footer-quicklinks.bg-blue {
+    background-color: var(--color-blue);
+  }
+
+  .footer-quicklinks.bg-gray {
+    background-color: var(--color-gray);
+  }
+
+  .footer-quicklinks.bg-green {
+    background-color: var(--rb-color-green-accent);
+  }
+
+  .footer-quicklinks.bg-dark-blue {
+    background-color: var(--color-blue-extra-dark);
   }
 
   .footer-quicklinks__item {
@@ -49,6 +134,41 @@ const links = [
     text-decoration: none;
     color: var(--color-dark);
     min-height: 120px;
+    transition: background-color 0.3s ease;
+  }
+
+  .footer-quicklinks__item.active {
+    box-shadow: none;
+    border: none;
+    pointer-events: none;
+  }
+
+  .footer-quicklinks__item.bg-blue {
+    background-color: var(--color-blue);
+  }
+
+  .footer-quicklinks__item.bg-gray {
+    background-color: var(--color-gray);
+  }
+
+  .footer-quicklinks__item.bg-green {
+    background-color: var(--rb-color-green-accent);
+  }
+
+  .footer-quicklinks__item.bg-dark-blue {
+    background-color: var(--color-blue-extra-dark);
+  }
+
+  .footer-quicklinks__item.bg-blue .footer-quicklinks__label, .footer-quicklinks__item.bg-blue .footer-quicklinks__tags {
+    color: var(--color-light);
+  }
+
+  .footer-quicklinks__item.bg-dark-blue .footer-quicklinks__label {
+    color: var(--color-light);
+  }
+
+  .footer-quicklinks__item.bg-dark-blue .footer-quicklinks__tags {
+    color: var(--rb-color-pale-blue);
   }
   
 
