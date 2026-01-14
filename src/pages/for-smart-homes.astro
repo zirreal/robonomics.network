@@ -20,6 +20,13 @@ const videos = [
   '/video/smart-home-4.mp4',
 ];
 
+const previews = [
+  '/video/preview/smart-home-preview-1.webp',
+  '/video/preview/smart-home-preview-2.webp',
+  '/video/preview/smart-home-preview-3.webp',
+  '/video/preview/smart-home-preview-4.webp', 
+];
+
 ---
 
 <Layout 
@@ -29,7 +36,7 @@ const videos = [
 
   <div class="layout layout__content page-title"><h1 class="page-title devices-title">{$tr('For smart homes')}</h1></div>
 
-  <VideoGallery videos={videos} alt="For smart homes video example" cls="mb"/>
+  <VideoGallery small videos={videos} previews={previews} alt="For smart homes video example" cls="mb"/>
 
   <section class="support">
     <div class="layout text-center">
