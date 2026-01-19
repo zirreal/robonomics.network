@@ -8,10 +8,10 @@ const generatePath = (path) => {
   return locale === 'en' ? path : `/${locale}${path}`;
 };
 
-import personalUrl from '../../assets/images/home/for-personal-usage.webp?url';
-import smartHomeUrl from '../../assets/images/home/for-smart-home.webp?url';
-import coworkingUrl from '../../assets/images/home/for-coworking.webp?url';
-import businessUrl from '../../assets/images/home/for-business.webp?url';
+import personalUrl from '../../assets/images/footer/for-personal-usage.webp?url';
+import smartHomeUrl from '../../assets/images/footer/for-smart-home.webp?url';
+import coworkingUrl from '../../assets/images/footer/for-coworking.webp?url';
+import businessUrl from '../../assets/images/footer/for-business.webp?url';
 
 // Normalize path to handle locale prefixes
 const normalizePath = (path) => {
@@ -45,7 +45,7 @@ const links = [
     label: 'FOR <br/> SMART HOMES', 
     img: smartHomeUrl, 
     tags: ['B2C & B2B solutions', 'Full service integration', 'DIY setup'],
-    bgClass: 'bg-gray',
+    bgClass: 'bg-dark',
     pathMatch: '/for-smart-homes'
   },
   { 
@@ -96,11 +96,7 @@ for (const link of links) {
           <h4 class="footer-quicklinks__label" set:html={item.label}></h4>
           <div class="footer-quicklinks__tags">
             <HeroCardBadges
-              items={[
-                $tr('Cyberpunks shop'),
-                $tr('Self-care devices'),
-                $tr('Personal metrics'),
-              ]}
+              items={item.tags}
               staticPos
               variant="dark"
             />
@@ -132,8 +128,8 @@ for (const link of links) {
     background-color: var(--color-blue);
   }
 
-  .footer-quicklinks.bg-gray {
-    background-color: var(--color-gray);
+  .footer-quicklinks.bg-dark {
+    background-color: var(--color-darkness);
   }
 
   .footer-quicklinks.bg-green {
@@ -165,8 +161,8 @@ for (const link of links) {
     background-color: var(--color-blue);
   }
 
-  .footer-quicklinks__item.bg-gray {
-    background-color: var(--color-gray);
+  .footer-quicklinks__item.bg-dark {
+    background-color: var(--color-darkness);
   }
 
   .footer-quicklinks__item.bg-green {
@@ -182,6 +178,10 @@ for (const link of links) {
   }
 
   .footer-quicklinks__item.bg-dark-blue .footer-quicklinks__label {
+    color: var(--color-light);
+  }
+
+  .footer-quicklinks__item.bg-dark .footer-quicklinks__label {
     color: var(--color-light);
   }
 

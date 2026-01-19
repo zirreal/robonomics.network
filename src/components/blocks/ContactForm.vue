@@ -27,7 +27,7 @@
     />
 
     <textarea
-      data-gsp-name="Message"
+      data-gsp-name="Comment"
       :data-gsp-data="message"
       v-model="message"
       :placeholder="$tr('Your message')"

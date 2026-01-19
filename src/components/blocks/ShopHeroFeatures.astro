@@ -5,7 +5,7 @@ const {
   subtitle = 'CYBERPUNKS HARDWARE',
   headline = "FOR PERSONAL USE AT CYBERPUNKS.SHOP!",
   description = "Every product in the store requires no mandatory subscription, doesn't force you to connect to corporate clouds to control your own devices, doesn't spy on you, and never sells your data to Google's partner network.",
-  imageSrc = '/images/shop/altruist.webp',
+  imageSrc, // Optional - will be randomly selected by script
   imageAlt = 'Cyberpunks Hardware device',
   shopUrl = 'https://cyberpunks.shop',
   cls = ''
@@ -53,9 +53,9 @@ const {
         </div>
       </div>
 
-      <!-- Center column - Robot image -->
+      <!-- Center column - Random Image -->
       <div class="feature-image">
-        <img src={imageSrc} alt={imageAlt} />
+        <img id="product-image" src={imageSrc || '/images/shop/random-1.webp'} alt={imageAlt} />
       </div>
 
       <!-- Right column - Positive features -->
@@ -173,7 +173,7 @@ const {
     margin-bottom: calc(var(--space) * 2);
   }
 
-  .robot-image {
+  .feature-image {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -182,10 +182,24 @@ const {
     width: 100%;
   }
 
-  .robot-image img {
+  .feature-image img {
     width: 100%;
     height: auto;
     object-fit: contain;
+    transition:
+      opacity 0.35s ease,
+      transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
+  }
+
+  .feature-image img.fade-out {
+    opacity: 0.3;
+    transform: translateY(6px) scale(0.995);
+  }
+
+  .feature-image img.fade-in {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 
   .features-column {
@@ -336,3 +350,77 @@ const {
     }
   }
 </style>
+
+<script>
+  // Array of all product images
+  const productImages = [
+    '/images/shop/random-1.webp',
+    '/images/shop/random-2.webp',
+    '/images/shop/random-3.webp',
+    '/images/shop/random-4.webp',
+    '/images/shop/random-5.webp',
+    '/images/shop/random-6.webp',
+    '/images/shop/random-7.webp',
+    '/images/shop/random-8.webp',
+    '/images/shop/random-9.webp',
+    '/images/shop/random-10.webp'
+  ];
+
+  let currentImageIndex = -1;
+
+  function getRandomImage() {
+    let randomIndex;
+    // Ensure we don't show the same image twice in a row
+    do {
+      randomIndex = Math.floor(Math.random() * productImages.length);
+    } while (randomIndex === currentImageIndex && productImages.length > 1);
+    
+    currentImageIndex = randomIndex;
+    return productImages[randomIndex];
+  }
+
+  function changeProductImage() {
+    const img = document.getElementById('product-image');
+    if (!img) return;
+
+    // Fade out
+    img.classList.add('fade-out');
+    
+    setTimeout(() => {
+      // Change image source
+      const newImageSrc = getRandomImage();
+      img.src = newImageSrc;
+      
+      // Fade in
+      img.classList.remove('fade-out');
+      img.classList.add('fade-in');
+      
+      // Remove fade-in class after animation completes
+      setTimeout(() => {
+        img.classList.remove('fade-in');
+      }, 300);
+    }, 300); // Wait for fade-out to complete
+  }
+
+  // Initialize: start with a random image (or use existing if it's one of our product images)
+  document.addEventListener('DOMContentLoaded', () => {
+    const img = document.getElementById('product-image');
+    if (img) {
+      // Check if current image is one of our product images
+      const currentSrc = img.getAttribute('src') || '';
+      const currentIndex = productImages.findIndex(imgPath => currentSrc === imgPath || currentSrc.endsWith(imgPath));
+      
+      if (currentIndex !== -1) {
+        // Use the current image as starting point
+        currentImageIndex = currentIndex;
+      } else {
+        // Set initial random image
+        const initialImage = getRandomImage();
+        img.src = initialImage;
+      }
+      
+      // Change image every 3 seconds
+      setInterval(changeProductImage, 3000);
+    }
+  });
+</script>
