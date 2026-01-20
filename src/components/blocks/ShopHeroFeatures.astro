@@ -358,6 +358,14 @@ const {
     '/images/shop/random-10.webp'
   ];
 
+  // Preload all product images to avoid "pop-in" when switching
+  const preloadedImages = [];
+  productImages.forEach((src) => {
+    const img = new Image();
+    img.src = src;
+    preloadedImages.push(img);
+  });
+
   let currentImageIndex = -1;
   let isAnimating = false;
   let fadePhase = 'idle'; // 'idle' | 'out' | 'in'
