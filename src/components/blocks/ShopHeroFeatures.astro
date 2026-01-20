@@ -360,6 +360,7 @@ const {
 
   let currentImageIndex = -1;
   let isAnimating = false;
+  let fadePhase = 'idle'; // 'idle' | 'out' | 'in'
 
   function getRandomImage() {
     let randomIndex;
@@ -377,19 +378,20 @@ const {
     if (!img || isAnimating) return;
 
     isAnimating = true;
+    fadePhase = 'out';
 
     const handleTransition = (event) => {
       if (event.propertyName !== 'opacity') return;
 
-      const opacity = getComputedStyle(img).opacity;
-
-      if (opacity === '0') {
+      if (fadePhase === 'out') {
         // fade-out finished → change image, then fade back in
         img.src = getRandomImage();
+        fadePhase = 'in';
         img.style.opacity = '1';
-      } else {
+      } else if (fadePhase === 'in') {
         // fade-in finished → clean up
         img.removeEventListener('transitionend', handleTransition);
+        fadePhase = 'idle';
         isAnimating = false;
       }
     };
