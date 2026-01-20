@@ -360,6 +360,23 @@ export default {
       // use lowerCase
       tags: ['smart home', 'events'],
       done: true
+    },
+    {
+      id: 19,
+      title: $trVue('Project G.E.C.K.: autonomous home kit case'),
+      description: $trVue('First R&D case report on creating an autonomous home image controlled by an NFT access token, based on field trials in Bali.'),
+      path: 'cases/geck-1',
+      cover_image: 'geck-1.webp',
+      // progress field needs for "sort by progress" filter
+      progress: 'complete',
+      // created field needs for "sort by date" filter (for earliest option)
+      created: '2024-04-16',
+      // updated field needs for "sort by date" filter (for recent option)
+      updated: '2024-04-16',
+      // tags field needs for "sort by interest" filter
+      // use lowerCase
+      tags: ['smart home', 'coworking', 'r&d'],
+      done: true
     }
   ]
 }

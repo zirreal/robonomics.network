@@ -2,9 +2,9 @@
 import RbButton from '../RbButton.astro';
 
 const {
-  subtitle = 'CYBERPUNKS HARDWARE',
-  headline = "FOR PERSONAL USE AT CYBERPUNKS.SHOP!",
-  description = "Every product in the store requires no mandatory subscription, doesn't force you to connect to corporate clouds to control your own devices, doesn't spy on you, and never sells your data to Google's partner network.",
+  subtitle = $tr('CYBERPUNKS HARDWARE'),
+  headline = $tr("FOR PERSONAL USE AT CYBERPUNKS.SHOP!"),
+  description = $tr("Every product in the store requires no mandatory subscription, doesn't force you to connect to corporate clouds to control your own devices, doesn't spy on you, and never sells your data to Google's partner network."),
   imageSrc, // Optional - will be randomly selected by script
   imageAlt = 'Cyberpunks Hardware device',
   shopUrl = 'https://cyberpunks.shop',
@@ -287,6 +287,10 @@ const {
 
     .feature-icon  {
       width: unset;
+    }
+
+    .feature-icon img {
+      max-width: 50px;
     }
 
     .feature-item {
