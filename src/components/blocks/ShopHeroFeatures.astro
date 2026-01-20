@@ -186,20 +186,8 @@ const {
     width: 100%;
     height: auto;
     object-fit: contain;
-    transition:
-      opacity 0.35s ease,
-      transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: opacity, transform;
-  }
-
-  .feature-image img.fade-out {
-    opacity: 0.3;
-    transform: translateY(6px) scale(0.995);
-  }
-
-  .feature-image img.fade-in {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transition: opacity 0.5s ease;
   }
 
   .features-column {
@@ -371,6 +359,7 @@ const {
   ];
 
   let currentImageIndex = -1;
+  let isAnimating = false;
 
   function getRandomImage() {
     let randomIndex;
@@ -385,25 +374,30 @@ const {
 
   function changeProductImage() {
     const img = document.getElementById('product-image');
-    if (!img) return;
+    if (!img || isAnimating) return;
 
-    // Fade out
-    img.classList.add('fade-out');
-    
-    setTimeout(() => {
-      // Change image source
-      const newImageSrc = getRandomImage();
-      img.src = newImageSrc;
-      
-      // Fade in
-      img.classList.remove('fade-out');
-      img.classList.add('fade-in');
-      
-      // Remove fade-in class after animation completes
-      setTimeout(() => {
-        img.classList.remove('fade-in');
-      }, 300);
-    }, 300); // Wait for fade-out to complete
+    isAnimating = true;
+
+    const handleTransition = (event) => {
+      if (event.propertyName !== 'opacity') return;
+
+      const opacity = getComputedStyle(img).opacity;
+
+      if (opacity === '0') {
+        // fade-out finished → change image, then fade back in
+        img.src = getRandomImage();
+        img.style.opacity = '1';
+      } else {
+        // fade-in finished → clean up
+        img.removeEventListener('transitionend', handleTransition);
+        isAnimating = false;
+      }
+    };
+
+    img.addEventListener('transitionend', handleTransition);
+
+    // start fade-out
+    img.style.opacity = '0';
   }
 
   // Initialize: start with a random image (or use existing if it's one of our product images)
@@ -422,6 +416,9 @@ const {
         const initialImage = getRandomImage();
         img.src = initialImage;
       }
+
+      // Ensure starting state is fully visible
+      img.style.opacity = '1';
       
       // Change image every 3 seconds
       setInterval(changeProductImage, 3000);
