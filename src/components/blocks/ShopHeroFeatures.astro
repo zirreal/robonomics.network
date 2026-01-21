@@ -57,12 +57,14 @@ const {
       <div class="feature-image">
         <img
           id="product-image-a"
+          data-role="image"
           class="feature-image__img feature-image__img--visible"
           src={imageSrc || '/images/shop/random-1.webp'}
           alt={imageAlt}
         />
         <img
           id="product-image-b"
+          data-role="image"
           class="feature-image__img feature-image__img--hidden"
           src={imageSrc || '/images/shop/random-2.webp'}
           alt={imageAlt}
@@ -185,30 +187,34 @@ const {
 
     const nextSrc = getRandomImage();
 
-    // 1. Prepare next image (hidden, correct src)
+    // Prepare next image
+    nextImg.src = nextSrc;
     nextImg.classList.add('feature-image__img--hidden');
     nextImg.classList.remove('feature-image__img--visible');
-    nextImg.src = nextSrc;
 
-    // 2. Wait for the browser to paint the new image
+    // Force paint
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        // 3. Start crossfade
+        // Start crossfade
         currentImg.classList.remove('feature-image__img--visible');
         currentImg.classList.add('feature-image__img--hidden');
 
         nextImg.classList.remove('feature-image__img--hidden');
         nextImg.classList.add('feature-image__img--visible');
 
-        // 4. Finalize after transition
-        setTimeout(() => {
+        // 🔑 Wait for opacity transition of the CURRENT image
+        const onFadeOutEnd = (e) => {
+          if (e.propertyName !== 'opacity') return;
+
+          currentImg.removeEventListener('transitionend', onFadeOutEnd);
           useImageAAsCurrent = !useImageAAsCurrent;
           isAnimating = false;
-        }, 500); // must match CSS duration
+        };
+
+        currentImg.addEventListener('transitionend', onFadeOutEnd);
       });
     });
   }
-
 
   // Initialize: set up two images and start rotation
   document.addEventListener('DOMContentLoaded', () => {
@@ -316,8 +322,8 @@ const {
     opacity: 0;
     transform: scale(0.985);
     transition:
-      opacity 0.45s ease,
-      transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity 0.5s ease,
+      transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: opacity, transform;
   }
 
