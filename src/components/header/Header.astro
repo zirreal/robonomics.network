@@ -169,16 +169,13 @@ const {translated = false} = Astro.props;
     display: none;
   }
 
-  @media screen and (max-width: 900px) {
-    .header-nav {
-      font-size: 0.7rem;
-    }
-    
-  }
-
   @media screen and (max-width: 580px) {
     .header-row :global(.header-laptop-nav){
       display: none;
+    }
+
+    .header-row {
+      width: unset;
     }
 
     .header-inner {
