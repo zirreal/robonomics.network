@@ -31,7 +31,12 @@ const isActive = (target) => {
 
 <nav class={'header-nav ' + classList} aria-label="Primary">
   <a href={generatePath('/devices/')} class:list={["header-link", isActive('/devices') && "is-active"]} aria-label="go to the shop devices page">{$tr('SHOP DEVICES')}</a>
-  <a href="https://robonomics.app/" class="header-link" aria-label="go check the dapp" target="_blank">{$tr('DAPP')}</a>
+  <a href="https://robonomics.app/" class="header-link header-link--dapp" aria-label="go check the dapp" target="_blank">
+    {$tr('DAPP')}
+    <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg" class="dapp-arrow">
+      <path d="M1 1L5 5M5 5H1M5 5V1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
   <a href={generatePath('/')} class:list={["header-link", "header-link--home", isActive('/') && "is-active"]} aria-label={$tr('HOME')} aria-label="go to the home page">{$tr('HOME')}</a>
   <a href={generatePath('/community/')} class:list={["header-link", isActive('/community') && "is-active"]} aria-label="go to the community page">{$tr('COMMUNITY')}</a>
   <a href={generatePath('/contact/')} class:list={["header-link", "header-link--ask", isActive('/contact') && "is-active"]} aria-label="go to the contact page and send us your inquiry">{$tr('ASK A TECHNICIAN')}</a>
@@ -41,7 +46,7 @@ const isActive = (target) => {
 
   .header-nav {
     width: 100%;
-    padding-left: calc(var(--space) * 2.4);
+    padding-left: calc(var(--space) * 2.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -74,11 +79,27 @@ const isActive = (target) => {
     transition: color 0.33s ease-in-out;
   }
 
+  .header-link--dapp {
+    font-variation-settings: var(--font-flex-extrabold);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .header-link--dapp .dapp-arrow {
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
   @media screen and (max-width: 900px) {
     .header-nav {
-      font-size: 0.8rem;
-      padding-left: 0;
       width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 760px) {
+    .header-nav {
+      padding-left: 0;
     }
   }
 

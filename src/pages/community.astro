@@ -92,7 +92,7 @@ const communityTweets = [
   ogImage="/website_cover_community.webp"
 >
   <section class="community-page">
-    <div class="layout layout__content">
+    <div class="layout">
       <h1 class="community-page__title page-title">
         {$tr("COMMUNITY")}
       </h1>
@@ -107,7 +107,7 @@ const communityTweets = [
     </div>
 
     <div class="community-page__gallery-wrapper">
-      <TweetGallery tweets={communityTweets} />
+      <TweetGallery width tweets={communityTweets} />
     </div>
   </section>
 </Layout>
