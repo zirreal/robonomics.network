@@ -30,18 +30,18 @@ const isActive = (target) => {
 ---
 
 <nav class={'header-nav ' + classList} aria-label="Primary">
-  <a href={generatePath('/devices/')} class:list={["header-link", isActive('/devices') && "is-active"]}>{$tr('SHOP DEVICES')}</a>
-  <a href={generatePath('/ecosystem/')} class:list={["header-link", isActive('/ecosystem') && "is-active"]}>{$tr('ECOSYSTEM')}</a>
-  <a href={generatePath('/')} class:list={["header-link", "header-link--home", isActive('/') && "is-active"]} aria-label={$tr('HOME')}>{$tr('HOME')}</a>
-  <a href={generatePath('/community/')} class:list={["header-link", isActive('/community') && "is-active"]}>{$tr('COMMUNITY')}</a>
-  <a href={generatePath('/contact/')} class:list={["header-link", "header-link--ask", isActive('/contact') && "is-active"]}>{$tr('ASK A TECHNICIAN')}</a>
+  <a href={generatePath('/devices/')} class:list={["header-link", isActive('/devices') && "is-active"]} aria-label="go to the shop devices page">{$tr('SHOP DEVICES')}</a>
+  <a href="https://robonomics.app/" class="header-link" aria-label="go check the dapp" target="_blank">{$tr('DAPP')}</a>
+  <a href={generatePath('/')} class:list={["header-link", "header-link--home", isActive('/') && "is-active"]} aria-label={$tr('HOME')} aria-label="go to the home page">{$tr('HOME')}</a>
+  <a href={generatePath('/community/')} class:list={["header-link", isActive('/community') && "is-active"]} aria-label="go to the community page">{$tr('COMMUNITY')}</a>
+  <a href={generatePath('/contact/')} class:list={["header-link", "header-link--ask", isActive('/contact') && "is-active"]} aria-label="go to the contact page and send us your inquiry">{$tr('ASK A TECHNICIAN')}</a>
 </nav>
 
 <style>
 
   .header-nav {
     width: 100%;
-    padding-left: 1.85rem;
+    padding-left: calc(var(--space) * 2.4);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -59,10 +59,6 @@ const isActive = (target) => {
   
   :global(.header.is-scrolled) :global(.header-nav) {
     transform: scale(0.9);
-  }
-
-  .header-link--home {
-    position: relative;
   }
 
   .header-link:hover {
@@ -86,9 +82,10 @@ const isActive = (target) => {
 
   @media screen and (max-width: 580px) {
     .header-nav {
-      padding-bottom: calc(var(--space) * 2);
+      display: flex;
       flex-direction: column;
-      gap: calc(var(--space) * 0.7);
+      padding-bottom: calc(var(--space) * 2);
+      gap: calc(var(--space) * 0.5);
       font-size: var(--base-font-size);
       width: 100%;
     }
