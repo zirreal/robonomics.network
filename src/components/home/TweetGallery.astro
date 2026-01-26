@@ -60,14 +60,16 @@ const tweets = customTweets || defaultTweets;
           aria-label={tweet.alt || "View tweet"}
           data-item-index={index}
         >
-          <div class="tweet-gallery__skeleton" data-skeleton={index}></div>
-          <img 
-            src={tweet.image} 
-            alt={tweet.alt || ""}
-            loading="lazy"
-            class="tweet-gallery__image"
-            data-image={index}
-          />
+          <div class="tweet-gallery__inner">
+            <div class="tweet-gallery__skeleton" data-skeleton={index}></div>
+            <img 
+              src={tweet.image} 
+              alt={tweet.alt || ""}
+              loading="lazy"
+              class="tweet-gallery__image"
+              data-image={index}
+            />
+          </div>
         </a>
       ))}
     </div>
@@ -77,13 +79,30 @@ const tweets = customTweets || defaultTweets;
 <script>
   document.querySelectorAll('.tweet-gallery__image').forEach(img => {
     const skeleton = img.previousElementSibling;
-    const item = img.parentElement;
+    const inner = img.parentElement;
+    const item = inner.parentElement;
+
+    const calculateHeight = () => {
+      const getWidth = () => item.offsetWidth || item.clientWidth;
+      const width = getWidth();
+      
+      if (width > 0 && img.naturalWidth > 0 && img.naturalHeight > 0) {
+        const aspectRatio = img.naturalHeight / img.naturalWidth;
+        const height = Math.max(aspectRatio * width, 300);
+        item.style.minHeight = height + 'px';
+        inner.style.minHeight = height + 'px';
+        skeleton.style.height = height + 'px';
+        return height;
+      }
+      return null;
+    };
 
     const syncHeight = () => {
       const imgHeight = img.offsetHeight || img.naturalHeight;
       if (imgHeight > 0) {
         const height = Math.max(imgHeight, 300);
         item.style.minHeight = height + 'px';
+        inner.style.minHeight = height + 'px';
         skeleton.style.height = height + 'px';
       }
     };
@@ -106,15 +125,11 @@ const tweets = customTweets || defaultTweets;
           setTimeout(() => {
             width = getWidth();
             if (width > 0) {
-              const height = Math.max((tempImg.naturalHeight / tempImg.naturalWidth) * width, 300);
-              item.style.minHeight = height + 'px';
-              skeleton.style.height = height + 'px';
+              calculateHeight();
             }
           }, 50);
         } else {
-          const height = Math.max((tempImg.naturalHeight / tempImg.naturalWidth) * width, 300);
-          item.style.minHeight = height + 'px';
-          skeleton.style.height = height + 'px';
+          calculateHeight();
         }
       }
     };
@@ -126,6 +141,19 @@ const tweets = customTweets || defaultTweets;
       img.addEventListener('load', reveal, { once: true });
       img.addEventListener('error', () => skeleton?.classList.add('hidden'), { once: true });
     }
+
+    // Recalculate height on resize
+    let resizeTimeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+          calculateHeight();
+        }
+      }, 150);
+    };
+
+    window.addEventListener('resize', handleResize);
   });
 </script>
 
@@ -155,6 +183,8 @@ const tweets = customTweets || defaultTweets;
     column-count: 3;
     column-gap: var(--space);
     column-fill: balance;
+    -webkit-column-count: 3;
+    -webkit-column-gap: var(--space);
   }
 
   .tweet-gallery__item {
@@ -164,18 +194,36 @@ const tweets = customTweets || defaultTweets;
     min-height: 300px;
     text-decoration: none;
     border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-color: var(--color-light);
+    overflow: visible;
+    transition: box-shadow 0.3s ease;
+    background-color: transparent;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: var(--space);
     break-inside: avoid;
     page-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+  }
+
+  .tweet-gallery__inner {
+    position: relative;
+    width: 100%;
+    min-height: 300px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: var(--color-light);
+    transition: transform 0.3s ease;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    will-change: transform;
   }
 
   .tweet-gallery__item:hover {
-    transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .tweet-gallery__item:hover .tweet-gallery__inner {
+    transform: translate3d(0, -4px, 0);
+    -webkit-transform: translate3d(0, -4px, 0);
   }
 
   .tweet-gallery__skeleton {
@@ -215,6 +263,10 @@ const tweets = customTweets || defaultTweets;
 
   .tweet-gallery__image.loaded {
     opacity: 1;
+  }
+
+  .tweet-gallery__item:hover .tweet-gallery__image.loaded {
+    opacity: 0.9;
   }
 
   @keyframes skeleton-loading {
